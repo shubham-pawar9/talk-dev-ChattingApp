@@ -68,11 +68,15 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
       <div className="userListDiv">
         <div className="userHead">
           <span className="simpleText">
-            Chats <img className="icon-img" src="/images/icon.png" />
+            Chats{" "}
+            <img
+              className="icon-img"
+              src={process.env.PUBLIC_URL + "/images/icon.png"}
+            />
           </span>
           <img
             className="addContactIcon"
-            src="/images/add-user.png"
+            src={process.env.PUBLIC_URL + "/images/add-user.png"}
             onClick={handleContactShow}
           />
         </div>
@@ -84,7 +88,10 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
         >
           <div className="chatuserList-head">
             {chatDisplay != "" || showContactAdd ? (
-              <img src="/images/back-btn.png" onClick={handleBackBtn} />
+              <img
+                src={process.env.PUBLIC_URL + "/images/back-btn.png"}
+                onClick={handleBackBtn}
+              />
             ) : null}
             {chatDisplay != "" && (
               <span className="selected-user" onClick={handleUserDetailsShow}>
@@ -105,10 +112,13 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
                       <img
                         src={
                           userData[value].gender == "male"
-                            ? `/images/profile-male.jpg`
+                            ? process.env.PUBLIC_URL +
+                              "/images/profile-male.jpg"
                             : userData[value].gender == "female"
-                            ? `/images/profile-female.jpg`
-                            : `/images/profile-male.jpg`
+                            ? process.env.PUBLIC_URL +
+                              "/images/profile-female.jpg"
+                            : process.env.PUBLIC_URL +
+                              "/images/profile-male.jpg"
                         }
                       />
                       <div key={index} className="user" id={value}>

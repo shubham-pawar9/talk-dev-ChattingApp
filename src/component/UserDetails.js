@@ -10,7 +10,7 @@ const UserDetails = ({
     <>
       <div className="userDetails">
         <div className="userProfile">
-          <img src="/images/profile-male.jpg" />
+          <img src={process.env.PUBLIC_URL + "/images/profile-male.jpg"} />
           {/* <img
             className="edit-icon"
             src="/images/edit.png"
@@ -30,7 +30,11 @@ const UserDetails = ({
             <span id={chatDisplay}>{chatDisplay}</span>
             <img
               className="edit-icon"
-              src={editStatus ? "/images/done.png" : "/images/edit.png"}
+              src={
+                editStatus
+                  ? process.env.PUBLIC_URL + "/images/done.png"
+                  : process.env.PUBLIC_URL + "/images/edit.png"
+              }
               onClick={handleEditName}
             />
           </span>

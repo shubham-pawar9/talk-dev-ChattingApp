@@ -116,7 +116,7 @@ const Chat = ({ chatDisplay, messageInputRef, windowHeight }) => {
             onChange={handleInputMsg}
           />
           <button className="messageSubmitBtn" onClick={handleMessageSubmit}>
-            <img src="/images/submit.png" />
+            <img src={process.env.PUBLIC_URL + "/images/submit.png"} />
           </button>
         </div>
       </div>
