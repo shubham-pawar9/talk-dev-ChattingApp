@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { addMessage } from "./chatSlice";
+import { addMessage, updateUsername } from "./chatSlice";
 import AddContact from "./AddContact";
 import Chat from "./Chat";
 import { useEffect, useRef, useState } from "react";
@@ -10,6 +10,8 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
   const [showContactAdd, setShowContactAdd] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const [editedValue, setEditedValue] = useState("");
+  const [editStatus, setEditStatus] = useState(false);
   const messageInputRef = useRef("");
   const handleUserSelect = (myUserName) => {
     setChatDisplay(myUserName);
@@ -22,6 +24,7 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
     setChatDisplay("");
     setShowContactAdd(false);
     setShowUserDetails(false);
+    setEditStatus(false);
   };
   const handleContactShow = () => {
     setChatDisplay("");
@@ -37,15 +40,41 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
     });
     setShowUserDetails(true);
   };
-
+  const handleEditName = () => {
+    setEditStatus(!editStatus);
+    if (!editStatus) {
+      document.getElementById(chatDisplay).contentEditable = true;
+      document.getElementById(chatDisplay).classList.add("editable");
+      document.getElementById(chatDisplay).focus();
+    } else {
+      const updatedUserName = document.getElementById(chatDisplay).textContent;
+      if (userData[chatDisplay]) {
+        dispatch(
+          updateUsername({
+            oldUsername: chatDisplay,
+            newUsername: updatedUserName,
+          })
+        );
+      }
+      setChatDisplay(updatedUserName);
+      document.getElementById(chatDisplay).contentEditable = false;
+      document.getElementById(chatDisplay).classList.remove("editable");
+      document.getElementById(chatDisplay).focus();
+    }
+  };
+  const handleEditProfile = () => {};
   return (
     <>
       <div className="userListDiv">
         <div className="userHead">
-          <span className="simpleText">Chats</span>
-          <span className="addContactIcon">
-            <img src="/images/add-user.png" onClick={handleContactShow} />
+          <span className="simpleText">
+            Chats <img className="icon-img" src="/images/icon.png" />
           </span>
+          <img
+            className="addContactIcon"
+            src="/images/add-user.png"
+            onClick={handleContactShow}
+          />
         </div>
         <div
           className="userChatSection"
@@ -66,7 +95,43 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
           {!showContactAdd && chatDisplay == "" && (
             <div className="chatUserList">
               <div className="list-div">
-                {Object.keys(userData).map((item, index) => {
+                {userData.users.map((value, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="profileIcon-div"
+                      onClick={() => handleUserSelect(value)}
+                    >
+                      <img
+                        src={
+                          userData[value].gender == "male"
+                            ? `/images/profile-male.jpg`
+                            : userData[value].gender == "female"
+                            ? `/images/profile-female.jpg`
+                            : `/images/profile-male.jpg`
+                        }
+                      />
+                      <div key={index} className="user" id={value}>
+                        <span className="user-name">{value}</span>
+                        <span className="user-lastMessage">
+                          {userData[value].messages.length == 0
+                            ? null
+                            : userData[value].messages[
+                                userData[value].messages.length - 1
+                              ].text}
+                        </span>
+                      </div>
+                      <span className="user-messageTime">
+                        {userData[value].messages.length == 0
+                          ? null
+                          : userData[value].messages[
+                              userData[value].messages.length - 1
+                            ].timestamp}
+                      </span>
+                    </div>
+                  );
+                })}
+                {/* {Object.keys(userData).map((item, index) => {
                   return (
                     <div
                       className="profileIcon-div"
@@ -100,7 +165,7 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
                       </span>
                     </div>
                   );
-                })}
+                })} */}
               </div>
             </div>
           )}
@@ -108,6 +173,10 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
             <UserDetails
               selectedUser={selectedUser}
               chatDisplay={chatDisplay}
+              handleEditName={handleEditName}
+              handleEditProfile={handleEditProfile}
+              setEditedValue={setEditedValue}
+              editStatus={editStatus}
             />
           )}
           {!showUserDetails && chatDisplay != "" && (

@@ -12,7 +12,11 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+div {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
 .App-header {
   background-color: #282c34;
   /* min-height: 100vh; */
@@ -188,6 +192,17 @@
   padding: 5px;
   color: #df678c;
   height: 50px;
+  align-items: center;
+}
+.simpleText {
+  height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+}
+.icon-img {
+  height: 65%;
 }
 .userChatSection {
   /* height: calc(100vh - 50px); */
@@ -196,7 +211,7 @@
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
 }
-.addContactIcon img {
+.addContactIcon {
   height: 65%;
   cursor: pointer;
 }
@@ -259,7 +274,7 @@
   height: 100%;
 }
 .list-div {
-  height: 50px;
+  /* height: 50px; */
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -425,6 +440,7 @@ outline: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .userProfile img {
   height: 90%;
@@ -440,10 +456,36 @@ outline: none;
 .userName {
   font-size: 28px;
   font-weight: 600;
-  text-transform: uppercase;
+  position: relative;
+  /* text-transform: uppercase; */
+  min-height: 38px;
+}
+.userName img {
+  position: absolute;
+    height: 20px;
+    width: 20px;
+    bottom: 0;
+    right: -30px;
+    opacity: 0.8;
+    cursor: pointer;
 }
 .userContact{
   font-size: 18px;
+}
+.userProfile .edit-icon {
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  bottom: 0;
+  right: 0;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.editable {
+  background-color: yellow;
+}
+.editable:focus-visible {
+  outline: 1px solid #fff;
 }
 .text-T {
   animation-name: textT;

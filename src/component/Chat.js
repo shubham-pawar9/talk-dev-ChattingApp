@@ -99,10 +99,8 @@ const Chat = ({ chatDisplay, messageInputRef, windowHeight }) => {
             ChatData[chatDisplay].messages.length > 0 &&
             ChatData[chatDisplay].messages.map((item, index) => {
               return (
-                <div className={item.sender}>
-                  <span className="message-text" key={index}>
-                    {item.text}
-                  </span>
+                <div className={item.sender} key={index}>
+                  <span className="message-text">{item.text}</span>
                   <span className="message-time">{item.timestamp}</span>
                 </div>
               );

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   chatData: {
+    users: ["shubham", "rajat"],
     shubham: {
       contact: "7843068183",
       gender: "male",
@@ -45,6 +46,7 @@ const chatSlice = createSlice({
         console.log(
           `User ${userName} does not exist. Initializing messages array.`
         );
+        state.chatData.users.push(userName);
         state.chatData[userName] = {
           contact: contact,
           gender: gender,
@@ -62,8 +64,19 @@ const chatSlice = createSlice({
 
       //   console.log("Modified state:", state);
     },
+    updateUsername: (state, action) => {
+      const { oldUsername, newUsername } = action.payload;
+      if (state.chatData[oldUsername] && !state.chatData[newUsername]) {
+        const index = state.chatData.users.indexOf(oldUsername);
+        if (index !== -1) {
+          state.chatData.users[index] = newUsername; // Update username in the array
+        }
+        state.chatData[newUsername] = state.chatData[oldUsername];
+        delete state.chatData[oldUsername];
+      }
+    },
   },
 });
 
-export const { addMessage } = chatSlice.actions;
+export const { addMessage, updateUsername } = chatSlice.actions;
 export default chatSlice.reducer;
