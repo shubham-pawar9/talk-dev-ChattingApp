@@ -4,6 +4,7 @@ import AddContact from "./AddContact";
 import Chat from "./Chat";
 import { useEffect, useRef, useState } from "react";
 import UserDetails from "./UserDetails";
+import StoryList from "./StoryList";
 const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
   const userData = useSelector((state) => state.chat.chatData);
   const dispatch = useDispatch();
@@ -112,13 +113,10 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
                       <img
                         src={
                           userData[value].gender == "male"
-                            ? process.env.PUBLIC_URL +
-                              "/images/profile-male.jpg"
+                            ? `${process.env.PUBLIC_URL}/images/profile-male.jpg`
                             : userData[value].gender == "female"
-                            ? process.env.PUBLIC_URL +
-                              "/images/profile-female.jpg"
-                            : process.env.PUBLIC_URL +
-                              "/images/profile-male.jpg"
+                            ? `${process.env.PUBLIC_URL}/images/profile-female.jpg`
+                            : `${process.env.PUBLIC_URL}/images/profile-male.jpg`
                         }
                       />
                       <div key={index} className="user" id={value}>
@@ -177,6 +175,7 @@ const User = ({ setChatDisplay, chatDisplay, windowHeight }) => {
                   );
                 })} */}
               </div>
+              <StoryList />
             </div>
           )}
           {!showContactAdd && showUserDetails && (

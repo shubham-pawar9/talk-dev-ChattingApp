@@ -3,12 +3,29 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "./chatSlice";
 import { UseBotReply } from "./UseBotReply";
+import Picker from "emoji-picker-react";
+import EmojiPicker from "emoji-picker-react";
 const Chat = ({ chatDisplay, messageInputRef, windowHeight }) => {
   // const [chatDisplay, setChatDisplay] = useState("");
   const [inputMessage, setInputMessage] = useState("");
   const [botMessage, setBotMessage] = useState("");
   const ChatData = useSelector((state) => state.chat.chatData);
   const [inputToBot, setInputToBot] = useState("");
+  const [inputStr, setInputStr] = useState("");
+  const [showPicker, setShowPicker] = useState(false);
+
+  const onEmojiClick = (event, emojiObject) => {
+    console.log(emojiObject.emoji);
+    setInputMessage((prevInput) => {
+      if (typeof prevInput === "string") {
+        return prevInput + emojiObject.emoji;
+      } else {
+        return emojiObject.emoji; // If prevInput is undefined, start with the emoji
+      }
+    });
+    setShowPicker(false);
+  };
+
   const [time, setTime] = useState(() => {
     const options = { hour: "numeric", minute: "2-digit" };
     return new Date().toLocaleTimeString([], options);
@@ -115,6 +132,26 @@ const Chat = ({ chatDisplay, messageInputRef, windowHeight }) => {
             onKeyDown={handleKeyPress}
             onChange={handleInputMsg}
           />
+          {/* <img
+            className="emoji-picker"
+            src={process.env.PUBLIC_URL + "/images/smile.png"}
+            onClick={() => setShowPicker((val) => !val)}
+          /> */}
+          {showPicker && (
+            <Picker
+              onEmojiClick={onEmojiClick}
+              rows={4}
+              perRow={8}
+              emojiSize={32}
+              style={{
+                position: "absolute",
+                bottom: "20px",
+                right: "20px",
+              }}
+              searchDisabled={true}
+              reactionsDefaultOpen={true}
+            />
+          )}
           <button className="messageSubmitBtn" onClick={handleMessageSubmit}>
             <img src={process.env.PUBLIC_URL + "/images/submit.png"} />
           </button>
